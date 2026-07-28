@@ -4,6 +4,17 @@ A lightweight, zero-dependency rate limiter for TypeScript/Node.js with support 
 
 ## Features
 
+```mermaid
+flowchart LR
+    Request[Incoming Request] --> Limiter{Rate Limiter}
+    Limiter -->|allowed=true| Pass[✅ Process]
+    Limiter -->|allowed=false| Deny[⛔ 429 Too Many Requests]
+    Limiter <--> Store[(Storage Backend)]
+
+    style Pass fill:#e8f5e9
+    style Deny fill:#ffebee
+```
+
 - **Three algorithms**: Token Bucket, Fixed Window, Sliding Window Counter
 - **Zero runtime dependencies**: Only dev dependencies for testing
 - **Pluggable storage**: Built-in memory store, easy to implement Redis/etc
@@ -150,6 +161,30 @@ app.use(rateLimit);
 ```
 
 ## Algorithm Comparison
+
+```mermaid
+flowchart TD
+    subgraph TB["Token Bucket"]
+        direction LR
+        TB1[Tokens refill<br/>continuously] --> TB2[Request consumes<br/>1 token] --> TB3{Bucket empty?}
+        TB3 -->|No| TB4[✅ Allow]
+        TB3 -->|Yes| TB5[⛔ Deny]
+    end
+
+    subgraph FW["Fixed Window"]
+        direction LR
+        FW1[Time divided into<br/>fixed intervals] --> FW2[Count requests<br/>per interval] --> FW3{Over limit?}
+        FW3 -->|No| FW4[✅ Allow]
+        FW3 -->|Yes| FW5[⛔ Deny]
+    end
+
+    subgraph SW["Sliding Window"]
+        direction LR
+        SW1[Weight previous +<br/>current window] --> SW2[Smooth<br/>approximation] --> SW3{Over limit?}
+        SW3 -->|No| SW4[✅ Allow]
+        SW3 -->|Yes| SW5[⛔ Deny]
+    end
+```
 
 | Algorithm | Burst Handling | Accuracy | Memory | Best For |
 |-----------|---------------|----------|--------|----------|
