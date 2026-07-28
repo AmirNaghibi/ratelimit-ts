@@ -1,0 +1,37 @@
+{
+  "name": "ratelimit-ts",
+  "version": "0.1.0",
+  "description": "Lightweight, zero-dependency rate limiter for TypeScript/Node.js with multiple algorithm support",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:ci": "jest --ci --coverage",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "rate-limiter",
+    "rate-limit",
+    "throttle",
+    "token-bucket",
+    "sliding-window",
+    "api",
+    "middleware"
+  ],
+  "author": "Amir Naghibi <amirmahdi76@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AmirNaghibi/ratelimit-ts.git"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.4.5"
+  }
+}
